@@ -1,3 +1,11 @@
+// the logic for interacting with your Firebase database (fetching questions, storing scores, etc.). 
+const Question = require('../models/question'); // Import the question template
+const database = require('./database');
+const questions = [
+  Object.assign({}, Question, { question: '...', options: [...], answer: '...' }),
+  // ... other questions
+];
+
 class fetchdata{
     constructor(){};
 

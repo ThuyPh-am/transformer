@@ -1,3 +1,6 @@
+import express from 'express';
+//const express = require('express');
+const app = express;
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
 const questionContainerElement = document.getElementById('question-container')
@@ -5,12 +8,26 @@ const questionElement = document.getElementById('question')
 const answerButtonElement = document.getElementById('answer-buttons')
 
 let shuffleQuestions, currentQuestionIndex
+app.listen(3000, () =>
+  console.log('Example app listening on port 3000!'),
+);
 
 startButton.addEventListener('click',startGame)
 nextButton.addEventListener('click', () => {
   currentQuestionIndex++
   setNextQuestion()
 })
+fetch('/server/Mockdatabase/get-questions')
+.then (response => response.json())
+.then (fetchedQuestions => {
+  questions = fetchedQuestions;
+  startGame();
+})
+.catch(error => 
+{
+  console.error('Error fetching questions:', error);
+  questionElement.innerText = "Failed to load quiz questions.";
+});
 
 function startGame(){
   startButton.classList.add('hide')
@@ -26,13 +43,13 @@ function setNextQuestion(){
 }
 
 function showQuestion(question){
-  questionElement.innerText = question.question
-  question.answers.forEach(answer => {
+  questionElement.innerText = question.question;
+  question.options.forEach(option => {
     const button = document.createElement('button')
-    button.innerText = answer.text
+    button.innerText = option;
     button.classList.add('btn')
-    if (answer.correct) {
-      button.dataset.correct = answer.correct
+    if (option == question.answer) {
+      button.dataset.correct = true;
     }
     button.addEventListener('click', selectAnswer)
     answerButtonElement.appendChild(button)
@@ -76,23 +93,23 @@ function clearStatusClass(element) {
   element.classList.remove('wrong')
 }
 
-const question = [
-  {
-    question: 'how to recycle plastic',
-    answers :[
-      {text: 'into black bin', correct:false},
-      {text: 'just throw away', correct:false},
-      {text:'with glass', correct: false},
-      {text:'into yellow bin', correct:true}
-    ]
-  },
-  {
-    question: 'how to handle bio trash',
-    answers: [
-      {text: 'into black bin', correct: true},
-      {text: 'like plastic', correct: false},
-      {text: 'throw them on the street', correct: false},
-      {text: 'into yellow bin', correct: false}
-    ]
-  }
-]
+// const question = [
+//   {
+//     question: 'how to recycle plastic',
+//     answers :[
+//       {text: 'into black bin', correct:false},
+//       {text: 'just throw away', correct:false},
+//       {text:'with glass', correct: false},
+//       {text:'into yellow bin', correct:true}
+//     ]
+//   },
+//   {
+//     question: 'how to handle bio trash',
+//     answers: [
+//       {text: 'into black bin', correct: true},
+//       {text: 'like plastic', correct: false},
+//       {text: 'throw them on the street', correct: false},
+//       {text: 'into yellow bin', correct: false}
+//     ]
+//   }
+// ]
