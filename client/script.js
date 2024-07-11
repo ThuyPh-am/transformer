@@ -1,3 +1,4 @@
+//proj/client/script.js
 document.addEventListener("DOMContentLoaded", async () => {
 const startButton = document.getElementById('start-btn');
 const nextButton = document.getElementById('next-btn');

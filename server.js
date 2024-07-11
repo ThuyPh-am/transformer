@@ -1,4 +1,5 @@
 //entry point for the server, set up express app, import routes, middleware, start the server
+//project/server.js
 const express = require ('express');
 const path = require('path');
 const cors = require('cors');
