@@ -17,7 +17,7 @@ nextButton.addEventListener('click', () => {
 
 async function fetchquestions() {
   try {
-    const response = await fetch('http://localhost:5000/get-questions');
+    const response = await fetch('http://localhost:5000/fetch-questions');
     const data = await response.json();
     console.log('Fetched questions:', data);
     questions = data;
@@ -47,19 +47,19 @@ function setNextQuestion(){
 }
 
 function showQuestion(data){
-  console.log('Current question:', data);
-  questionElement.innerText = data.question;
+  // console.log('Current question:', data);
+  questionElement.innerText = data.question.forEach(
+  console.log('current question:', data)
   data.options.forEach(option => {
     const button = document.createElement('button');
     button.innerText = option;
     button.classList.add('btn');
     if (option == data.answer) {
-      score++;
       button.dataset.correct = true;
     }
     button.addEventListener('click', selectAnswer);
     answerButtonElement.appendChild(button);
-  });
+  }));
 }
 
 function resetState(){
