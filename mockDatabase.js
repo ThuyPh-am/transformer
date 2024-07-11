@@ -11,6 +11,3 @@ class MockDatabase{
             }
      getQuestions(){
       return this.question;} }
-
-const database = new MockDatabase(); // Create an instance of the mock database
-module.exports = database
