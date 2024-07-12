@@ -11,7 +11,11 @@ const PORT = process.env.PORT || 5000;
 quizapp.use(cors());
 
 // quizapp.use(express.static(path.join(__dirname, './client')));
-quizapp.listen(PORT, () => {console.log("Example app listening on port ${PORT}");});
+quizapp.use(express.static('client'));
+quizapp.get('/', (req, res) => {
+  res.send('Hello, World');
+});
+quizapp.listen(PORT, () => {console.log(`Example app listening on port ${PORT}`);});
 
 
 const Mockdatabase = [
@@ -25,7 +29,20 @@ const Mockdatabase = [
     question: "what is the capital of Germany?",
     options: ["frankfurt", "berlin", "tokyo", "paris"],
     answer: "berlin"
-  }];
+  },
+
+  {
+    "question": "What is the capital of Japan?",
+    "options": ["frankfurt", "berlin", "tokyo", "paris"],
+    "answer": "tokyo"
+  },
+
+  {
+    "question": "What is the best activity?",
+    "options": ["recycling", "berlin", "tokyo", "paris"],
+    "answer": "recycling"
+  }
+];
 
 
 quizapp.get('/', (req, res) => {
@@ -43,31 +60,5 @@ quizapp.get('/fetch-questions', async (req, res) => {
 }
 );
 
-// quizapp.get('/get-options', async (req, res) => {
-//   try {
-//     // const question = Mockdatabase.question();
-//     const options = Mockdatabase.map(q => ({
-//       question: q.question,
-//       options: q.options
-//     }));
-//     res.json(options);
-//   } catch (error) {
-//     console.error('Error fetching option:', error);
-//     res.status(500).json({ error: 'failder to fetch options!' });
-//   }
-// // });
 
-// quizapp.get('/get-amswer', async (req, res) => {
-//   try {
-//     // const question = question.question();
-//     const answer = Mockdatabase.map(q => ({
-//       question: q.question,
-//       answer: q.answer
-//     }));
-//     res.json(answer);
-//   } catch (error) {
-//     console.error('Error fetching answers:', error);
-//     res.status(500).json({ error: 'failed to fetch answers!' })
-//   }
-// });
 
