@@ -1,5 +1,6 @@
 //proj/client/script.js
 document.addEventListener("DOMContentLoaded", async () => {
+const welcome = document.getElementById('message-container');
 const startButton = document.getElementById('start-btn');
 const nextButton = document.getElementById('next-btn');
 const restartButton = document.getElementById('restart-btn');
@@ -22,9 +23,25 @@ nextButton.addEventListener('click', () => {
 async function init() {
   startGame();
 }
+
+async function front() {
+  try{
+    const response = await fetch('/');
+    console.log('Welcome message:', data);
+    welcome.classList.remove('hide');
+    startButton.classList.remove('hide');
+    questionContainerElement.classList.add('hide');
+    nextButton.classList.add('hide');
+    restartButton.classList.add('hide');
+  } catch (error) {
+    console.error('Error fetching welcome message:', error);
+    welcome.innerText = "Failed to load welcome message.";
+  }
+}
+
 async function fetchquestions() {
   try {
-    const response = await fetch('http://localhost:5000/fetch-questions');
+    const response = await fetch('/fetch-questions');
     const data = await response.json();
     console.log('Fetched questions:', data);
     questions = data; //store the fetched questions in the questions array
@@ -53,6 +70,7 @@ function handleEnterKey(event) {
 
 async function startGame(){
   console.log('Starting game...');
+  welcome.classList.add('hide');
   startButton.classList.add('hide');
   try {
   await fetchquestions();
@@ -74,7 +92,11 @@ function setNextQuestion(){
 
 function showQuestion(question){
   // console.log('Current question:', data);
-  questionElement.innerText = question.question;
+  questionElement.innerHTML = '';
+  const questionTextElement = document.createElement('p');
+  questionTextElement.innerText = question.question;
+  questionElement.appendChild(questionTextElement);
+  // questionElement.innerText = question.question;
   console.log('current question:', question)
   question.options.forEach(option => {
     const button = document.createElement('button');

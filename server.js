@@ -10,13 +10,19 @@ const PORT = process.env.PORT || 5000;
 
 quizapp.use(cors());
 
-// quizapp.use(express.static(path.join(__dirname, './client')));
-quizapp.use(express.static('client'));
-quizapp.get('/', (req, res) => {
-  res.send('Hello, World');
+quizapp.use(express.static(path.join(__dirname, './client')));
+// quizapp.use(express.static('client'));
+quizapp.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
+  console.log(`Requested URL: http://localhost:${PORT}`);
 });
-quizapp.listen(PORT, () => {console.log(`Example app listening on port ${PORT}`);});
-
+quizapp.use((req,res, next) =>{
+  const requestedUrl = `http://${req.headers.host}`;
+  console.log(`Requested URL: ${requestedUrl}`);
+  res.locals.requestedUrl = requestedUrl;
+  next();
+}
+)
 
 const Mockdatabase = [
   {
@@ -44,9 +50,8 @@ const Mockdatabase = [
   }
 ];
 
-
 quizapp.get('/', (req, res) => {
-  res.sendFile(__dirname + './client/index.html');
+  res.sendFile(path.join(__dirname, './client/index.html'));
 });
 
 quizapp.get('/fetch-questions', async (req, res) => {
