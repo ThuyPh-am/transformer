@@ -8,6 +8,7 @@ const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonElement = document.getElementById('answer-buttons');
 const scoreElement = document.getElementById('score');
+const finalScoreElement = document.getElementById('final-score');
 
 let shuffleQuestions, currentQuestionIndex;
 let questions = [];
@@ -135,6 +136,7 @@ function selectAnswer(e){
     restartButton.classList.remove('hide');
     startButton.classList.add('hide');
   }
+  scoreElement.textContent = score;
 }
 
 function setStatusClass(element, correct){
@@ -152,13 +154,25 @@ function clearStatusClass(element) {
 }
 
 function restartGame() {
-  currentQuestionIndex = 0;
-  score = 0;
-  scoreElement.textContent = score;
-  startButton.classList.remove('hide');
-  restartButton.classList.add('hide');
   questionContainerElement.classList.add('hide');
-  resetState();
-}
+  nextButton.classList.add('hide');
+  scoreElement.classList.add('hide');
 
-});
+  finalScoreElement.textContent = `Your final score is: ${score}`;
+  finalScoreElement.classList.remove('hide');
+  setTimeout(() => {
+    currentQuestionIndex = 0;
+    score = 0;
+    scoreElement.textContent = score;
+    finalScoreElement.textContent = '';
+    finalScoreElement.classList.add('hide');
+
+    startButton.classList.remove('hide');
+    questionContainerElement.classList.add('hide');
+    nextButton.classList.add('hide');
+    restartButton.classList.add('hide');
+    scoreElement.classList.remove('hide');
+    
+    resetState();}, 2000);
+}
+})
